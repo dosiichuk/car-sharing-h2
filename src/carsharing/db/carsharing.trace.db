@@ -1,5 +1,0 @@
-2023-08-27 13:18:06 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "COMPANY" already exists; SQL statement:
-CREATE TABLE  COMPANY (ID INTEGER not NULL,  name VARCHAR(255)); [42101-200]
-2023-08-27 13:46:13 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-200]
