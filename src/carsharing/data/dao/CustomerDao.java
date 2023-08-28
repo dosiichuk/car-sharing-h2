@@ -111,11 +111,11 @@ public class CustomerDao implements ICustomerDao {
     public void updateRentedCarId(int rentedCarId, int customerId) {
         try (
                 Connection connection = this.factory.getConn();
-                PreparedStatement stmt = connection.prepareStatement("UPDATE CAR SET RENTED_CAR_ID = ? WHERE ID = ?;");
+                PreparedStatement stmt = connection.prepareStatement("UPDATE CUSTOMER SET RENTED_CAR_ID = ? WHERE ID = ?;");
         ) {
             stmt.setInt(1, rentedCarId);
             stmt.setInt(2, customerId);
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (SQLException se) {
             se.printStackTrace();
             throw new RuntimeException(se);

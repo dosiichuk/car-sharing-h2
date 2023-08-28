@@ -67,7 +67,8 @@ public class CustomerService {
         Customer dbCustomer = null;
         try {
             dbCustomer = customerDao.findOneById(customer.getId());
-            if (dbCustomer.getCarId() == null) {
+            System.out.println("ID" + dbCustomer.getCarId());
+            if (dbCustomer.getCarId() == 0) {
                 System.out.println("You didn't rent a car!");
                 return null;
             } else {

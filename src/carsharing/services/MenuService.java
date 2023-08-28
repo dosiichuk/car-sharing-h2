@@ -190,12 +190,17 @@ public class MenuService implements Runnable {
             CarRentMenu command = CarRentMenu.getCommandFromUserInput(Integer.parseInt(userInput));
             if (command != null) {
                 switch(command) {
-                    case RENT_CAR -> takeCarRentChooseCompanyCommand(customer);
+                    case RENT_CAR -> {
+                        takeCarRentChooseCompanyCommand(customer);
+                    }
                     case RETURN_CAR -> {
 
                     }
                     case CAR_INFO -> {
                         Integer carId = customerService.getRentedCarId(customer);
+                        if (carId == null) {
+                            continue;
+                        }
                         Company company = companyService.findCompanyByCarId(carId);
                         carService.getRentedCarInfo(carId, company);
                     }
@@ -251,6 +256,7 @@ public class MenuService implements Runnable {
                     takeCarRentChooseCompanyCommand(customer);
                 } else {
                     customerService.rentCar(car, customer);
+                    takeCarRentCommand(customer);
                 }
             } else {
                 switch(command) {
