@@ -1,8 +1,10 @@
 package carsharing.services;
 
+import carsharing.data.ConnectionFactory;
 import carsharing.data.dao.CompanyDao;
 import carsharing.data.entities.Company;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,8 +12,8 @@ public class CompanyService {
     private final CompanyDao companyDao;
     private Scanner scanner;
 
-    public CompanyService(String fileName, Scanner scanner) {
-        companyDao = new CompanyDao(fileName);
+    public CompanyService(ConnectionFactory connectionFactory, Scanner scanner) {
+        companyDao = new CompanyDao(connectionFactory);
         this.scanner = scanner;
         companyDao.dropCompanyTable();
         companyDao.createCompanyTable();
@@ -31,18 +33,23 @@ public class CompanyService {
         System.out.println("The company was created!");
     }
 
-    public void showCompanyList() {
+    public List<Company> getCompanyList() {
+        List<Company> companies = new ArrayList<>();
         try {
-            List<Company> companies = companyDao.findAll();
-            if (companies.size() == 0) {
-                System.out.println("The company list is empty!");
-            } else {
-                companies.stream()
-                        .forEach(company -> System.out.printf("%d. %s\n", company.getId(), company.getName()));
-            }
+            companies = companyDao.findAll();
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
+        return companies;
+    }
 
+    public Company findCompanyById(int companyId) {
+        Company company = null;
+        try {
+            company = companyDao.findOneById(companyId);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return company;
     }
 }

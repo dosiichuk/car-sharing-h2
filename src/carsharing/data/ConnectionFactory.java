@@ -19,7 +19,7 @@ public class ConnectionFactory {
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
             //STEP 2: Open a connection
-            System.out.println("Connecting to database...");
+//            System.out.println("Connecting to database...");
 
             conn = DriverManager.getConnection(DB_URL);
             conn.setAutoCommit(true);

@@ -1,7 +1,7 @@
 package carsharing.data.dao;
 
 import carsharing.data.ConnectionFactory;
-import carsharing.data.dao.interfaces.ICompanyDao;
+import carsharing.data.interfaces.ICompanyDao;
 import carsharing.data.entities.Company;
 
 import java.sql.*;
@@ -11,8 +11,8 @@ import java.util.List;
 public class CompanyDao implements ICompanyDao {
     private ConnectionFactory factory;
 
-    public CompanyDao(String fileName) {
-        this.factory = new ConnectionFactory(fileName);
+    public CompanyDao(ConnectionFactory connectionFactory) {
+        this.factory = connectionFactory;
     }
 
     public void dropCompanyTable() {
@@ -20,7 +20,7 @@ public class CompanyDao implements ICompanyDao {
                 Connection connection = this.factory.getConn();
                 Statement stmt = connection.createStatement();
         ) {
-            String sql =  "DROP TABLE IF EXISTS COMPANY";
+            String sql =  "DROP TABLE IF EXISTS COMPANY CASCADE";
             stmt.executeUpdate(sql);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -72,6 +72,27 @@ public class CompanyDao implements ICompanyDao {
                 Company.currId = id;
             }
             return companies;
+        } catch (SQLException se) {
+            se.printStackTrace();
+            throw new RuntimeException(se);
+        }
+    }
+
+    public Company findOneById(int companyId) {
+        Company company = null;
+        try (
+                Connection connection = this.factory.getConn();
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM COMPANY WHERE ID = ?");
+        ) {
+            stmt.setInt(1, companyId);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                String companyName = resultSet.getString("name");
+                int id = resultSet.getInt("ID");
+                company = new Company(companyName, id);
+                Company.currId = id;
+            }
+            return company;
         } catch (SQLException se) {
             se.printStackTrace();
             throw new RuntimeException(se);

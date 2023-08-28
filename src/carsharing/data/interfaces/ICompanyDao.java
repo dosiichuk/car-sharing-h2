@@ -1,4 +1,4 @@
-package carsharing.data.dao.interfaces;
+package carsharing.data.interfaces;
 
 public interface ICompanyDao {
     void createCompanyTable();

@@ -1,4 +1,4 @@
-package carsharing.services.enums;
+package carsharing.enums;
 
 public enum TopMenu {
     LOG_IN_AS_MANAGER("1. Log in as a manager", 1),

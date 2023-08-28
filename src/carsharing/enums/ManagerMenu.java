@@ -1,4 +1,4 @@
-package carsharing.services.enums;
+package carsharing.enums;
 
 public enum ManagerMenu {
     COMPANY_LIST("1. Company list", 1),

@@ -1,19 +1,20 @@
 package carsharing;
 
+import carsharing.data.ConnectionFactory;
+import carsharing.services.CarService;
 import carsharing.services.CompanyService;
 import carsharing.services.MenuService;
 
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         String fileName = args.length < 2 ? "carsharing" : args[1];
         Scanner scanner = new Scanner(System.in);
-        CompanyService companyService = new CompanyService(fileName, scanner);
-        MenuService menuService = new MenuService(companyService, scanner);
-        while(true) {
-            menuService.takeTopMenuCommand();
-        }
+        ConnectionFactory connectionFactory = new ConnectionFactory(fileName);
+        CompanyService companyService = new CompanyService(connectionFactory, scanner);
+        CarService carService = new CarService(connectionFactory, scanner);
+        MenuService menuService = new MenuService(companyService, carService, scanner);
+        menuService.run();
     }
 }
