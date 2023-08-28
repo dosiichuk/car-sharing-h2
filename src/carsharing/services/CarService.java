@@ -47,4 +47,34 @@ public class CarService {
             }
         }
     }
+
+    public List<Car> getAllCars(Company company) {
+        List<Car> cars = carDao.findByCompanyId(company.getId());
+        return cars;
+    }
+
+    public Car findCarById(int carId) {
+        Car car = null;
+        try {
+            car = carDao.findOneById(carId);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return car;
+    }
+
+    public void getRentedCarInfo(Integer carId, Company company) {
+        if (carId == null) {
+            return;
+        } else {
+            Car car = carDao.findOneById(carId);
+            System.out.printf("""
+                    Your rented car:
+                    %s
+                    Company:
+                    %s
+                    """, car.getName(), company.getName());
+        }
+    }
+
 }

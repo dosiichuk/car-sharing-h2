@@ -21,7 +21,7 @@ public class CarDao implements ICarDao {
                 Connection connection = this.factory.getConn();
                 Statement stmt = connection.createStatement();
         ) {
-            String sql =  "DROP TABLE IF EXISTS CAR";
+            String sql =  "DROP TABLE IF EXISTS CAR CASCADE";
             stmt.executeUpdate(sql);
         } catch (SQLException se) {
             se.printStackTrace();
@@ -100,6 +100,28 @@ public class CarDao implements ICarDao {
             stmt.setInt(2, id);
             stmt.setInt(3, companyId);
             stmt.executeUpdate();
+        } catch (SQLException se) {
+            se.printStackTrace();
+            throw new RuntimeException(se);
+        }
+    }
+
+    public Car findOneById(int carId) {
+        Car car = null;
+        try (
+                Connection connection = this.factory.getConn();
+                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM CAR WHERE ID = ?");
+        ) {
+            stmt.setInt(1, carId);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                String carname = resultSet.getString("name");
+                int id = resultSet.getInt("ID");
+                int companyId = resultSet.getInt("COMPANY_ID");
+                car = new Car(id, carname, companyId);
+                Car.currId = id;
+            }
+            return car;
         } catch (SQLException se) {
             se.printStackTrace();
             throw new RuntimeException(se);

@@ -3,6 +3,7 @@ package carsharing;
 import carsharing.data.ConnectionFactory;
 import carsharing.services.CarService;
 import carsharing.services.CompanyService;
+import carsharing.services.CustomerService;
 import carsharing.services.MenuService;
 
 import java.util.Scanner;
@@ -14,7 +15,8 @@ public class Main {
         ConnectionFactory connectionFactory = new ConnectionFactory(fileName);
         CompanyService companyService = new CompanyService(connectionFactory, scanner);
         CarService carService = new CarService(connectionFactory, scanner);
-        MenuService menuService = new MenuService(companyService, carService, scanner);
+        CustomerService customerService = new CustomerService(connectionFactory, scanner);
+        MenuService menuService = new MenuService(companyService, carService, customerService, scanner);
         menuService.run();
     }
 }

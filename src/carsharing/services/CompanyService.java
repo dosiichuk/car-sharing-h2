@@ -52,4 +52,14 @@ public class CompanyService {
         }
         return company;
     }
+
+    public Company findCompanyByCarId(int carId) {
+        Company company = null;
+        try {
+            company = companyDao.findOneByCarId(carId);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return company;
+    }
 }
